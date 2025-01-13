@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -20,7 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Mail } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Mail } from 'lucide-react';
+import NavbarInvite from '../layout/NavbarInvite';
 
 interface Intern {
   id: string;
@@ -122,33 +124,54 @@ export function InternListView() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="space-y-4">
         {mockInterns.map((intern) => (
-          <Card key={intern.id}>
-            <CardHeader>
-              <CardTitle>{intern.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
+          <li key={intern.id} className="border rounded-md p-4 shadow-sm">
+            <div className="flex justify-between items-center">
+              <div>
+                <h3 className="text-lg font-medium">{intern.name}</h3>
                 <p className="text-sm text-muted-foreground">{intern.email}</p>
-                <div className="flex justify-between">
-                  <span className="text-sm">{intern.track}</span>
-                  <span className="text-sm">{intern.stage}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium capitalize">
-                    {intern.role}
-                  </span>
+                <p className="text-sm">{intern.track} - {intern.stage}</p>
+                <p className="text-sm font-medium capitalize">{intern.role}</p>
+              </div>
+              <Dialog>
+                <DialogTrigger asChild>
                   <Button variant="outline" size="sm">
                     View Details
                   </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{intern.name}'s Profile</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-2">
+                    <p>Email: {intern.email}</p>
+                    <p>Track: {intern.track}</p>
+                    <p>Stage: {intern.stage}</p>
+                    <p>Role: {intern.role}</p>
+                    <Select
+                      value={intern.role}
+                      onValueChange={(value) => console.log('Change role to', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="mentor">Mentor</SelectItem>
+                        <SelectItem value="grader">Grader</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => console.log('Close modal')}>Close</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </li>
         ))}
+      </ul>
+        ))
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export default function DashboardLayout({
       <div className="dashboard-container">
         {children}
       </div>
-      <BottomNav />
+      <BottomNav onOpenCreateTaskModal={() => { /* Define your function here */ }} />
     </>
   );
 }

@@ -37,13 +37,13 @@ const tabs = [
     href: '/app/tasks',
     icon: ClipboardList,
   },
-  {
-    id: 'create',
-    label: 'Create',
-    href: '/app/tasks/create',
-    icon: PlusCircle,
-  },
-  {
+  
+    {
+      id: 'create',
+      label: 'Create',
+      icon: PlusCircle,
+    },
+    {
     id: 'grading',
     label: 'Grade',
     href: '/app/grading',
@@ -54,6 +54,12 @@ const tabs = [
     label: 'Leaderboard',
     href: '/app/leaderboard',
     icon: Trophy,
+  },
+  {
+    id: 'users',
+    label: 'Users',
+    href: '/app/users',
+    icon: Users,
   },
   {
     id: 'interns',
@@ -82,7 +88,9 @@ const tabs = [
   // Add more tabs here if needed
 ];
 
-const BottomNav = () => {
+
+
+const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCreateTaskModal }) => {
   const pathname = usePathname();
 
   const mobileVisibleTabs = tabs.slice(0, 4); // Show only first 4 tabs in bottom nav
@@ -98,24 +106,49 @@ const BottomNav = () => {
           {mobileVisibleTabs.map((tab) => {
             const isActive = pathname === tab.href;
             return (
-              <Link
-                key={tab.id}
-                href={tab.href}
-                prefetch={true}
-                className={cn(
-                  'flex flex-col items-center justify-center flex-1 h-full',
-                  'transition-colors',
-                  isActive
-                    ? 'text-purple-600 bg-purple-100'
-                    : 'text-muted-foreground',
-                  'hover:bg-gray-500/20'
+              <>
+                {tab.id === 'create' ? (
+                  <Link
+                    key={tab.id}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent default link behavior
+                      onOpenCreateTaskModal();
+                    }}
+                    className={cn(
+                      'flex flex-col items-center justify-center flex-1 h-full',
+                      'transition-colors',
+                      isActive
+                        ? 'text-purple-600 bg-purple-100'
+                        : 'text-muted-foreground',
+                      'hover:bg-gray-500/20'
+                    )}
+                  >
+                    <PlusCircle className="h-5 w-5" />
+                    <span className="text-xs mt-1">Create</span>
+                  </Link>
+                ) : (
+                  <Link
+                    key={tab.id}
+                    href={tab.href || "#"}
+                    prefetch={tab.href !== undefined}
+                    className={cn(
+                      'flex flex-col items-center justify-center flex-1 h-full',
+                      'transition-colors',
+                      isActive
+                        ? 'text-purple-600 bg-purple-100'
+                        : 'text-muted-foreground',
+                      'hover:bg-gray-500/20'
+                    )}
+                  >
+                    {tab.icon && <tab.icon className="h-5 w-5" />}
+                    <span className="text-xs mt-1">{tab.label}</span>
+                  </Link>
                 )}
-              >
-                <tab.icon className="h-5 w-5" />
-                <span className="text-xs mt-1">{tab.label}</span>
-              </Link>
+              </>
             );
           })}
+ dispuesto
           {remainingTabs.length > 0 && (
             <Sheet>
               <SheetTrigger asChild>
@@ -140,8 +173,8 @@ const BottomNav = () => {
                     return (
                       <SheetClose asChild key={tab.id}>
                         <Link
-                          href={tab.href}
-                          prefetch={true}
+                          href={tab.href || "#"}
+                          prefetch={tab.href !== undefined}
                           className={cn(
                             'flex flex-col items-center justify-center p-4 rounded-lg',
                             'transition-colors',

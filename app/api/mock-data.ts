@@ -1,4 +1,5 @@
 import { Task, Submission, User, Role, LeaderboardData, Track } from '@/types';
+import { use } from 'react';
 
 export const mockTracks: Track[] = [
   { id: 'frontend', name: 'Frontend', description: 'Learn frontend development with React.' },
@@ -17,6 +18,7 @@ export const interns = [
     id: 1,
     rank: 1,
     name: 'John Doe',
+    username: 'john_doe',
     track: 'Frontend',
     stage: 'Stage 2',
     tasksCompleted: 15,
@@ -27,6 +29,7 @@ export const interns = [
     id: 2,
     rank: 2,
     name: 'Jane Smith',
+    username: 'jane_smith',
     track: 'Backend',
     stage: 'Stage 2',
     tasksCompleted: 14,
@@ -46,7 +49,7 @@ export const mockTasks: Task[] = [
     createdAt: '2024-01-15T10:00:00Z',
     dueDate: '2024-01-22T10:00:00Z',
     createdBy: '2', // Bob Mentor
-  },
+    },
   {
     id: '2',
     title: 'Set up a Node.js Server',
@@ -56,7 +59,7 @@ export const mockTasks: Task[] = [
     createdAt: '2024-01-16T14:00:00Z',
     dueDate: '2024-01-23T14:00:00Z',
     createdBy: '2', // Bob Mentor
-  },
+    },
   // Add more tasks as needed
 ];
 
@@ -65,42 +68,54 @@ export const mockMembers: User[] = [
     id: '1',
     email: 'owner@example.com',
     name: 'Alice Owner',
+    username: 'alice_owner',
     role: Role.Mentor,
-  },
+    },
   {
     id: '2',
     email: 'mentor1@example.com',
     name: 'Bob Mentor',
+    username: 'bob_mentor',
     role: Role.Mentor,
     trackId: 'frontend',
-  },
+    },
   {
     id: '3',
     email: 'grader1@example.com',
     name: 'Charlie Grader',
+    username: 'charlie_grader',
     role: Role.Grader,
     trackId: 'frontend',
-  },
+    },
   {
     id: '4',
     email: 'intern1@example.com',
     name: 'David Intern',
+    username: 'david_intern',
     role: Role.Intern,
     trackId: 'frontend',
-  },
+    },
   {
     id: '5',
     email: 'intern2@example.com',
     name: 'Eve Intern',
+    username: 'eve_intern',
     role: Role.Intern,
     trackId: 'backend',
-  },
+    },
   {
     id: '6',
     email: 'hostelbrs+2@gmail.com',
     name: 'Avi OfLagos',
-    role: Role.ChiefOwner,
-  },
+    username: 'avi_oflagos',
+    role: Role.ChiefOwner,},
+  {
+    id: '7',
+    email: 'newuser@example.com',
+    name: 'New User',
+    username: 'new_user',
+    role: Role.Intern,
+    trackId: 'mobile',},
   // Add more members as needed
 ];
 
@@ -109,6 +124,7 @@ export const mockCurrentUser: User = {
   email: 'hostelbrs+2@gmail.com',
   name: 'Current User',
   role: Role.ChiefOwner,
+  username: 'avi_oflagos',
   trackId: '*',
 };
 
@@ -118,7 +134,12 @@ export const mockSubmissions: Submission[] = [
     taskId: '1',
     submittedBy: '4', // David Intern
     submittedAt: '2024-01-21T09:00:00Z',
-    contents: [{ type: 'description', value: 'Here is my solution for the React component task.' }],
+    contents: [
+      {
+        type: 'description',
+        value: 'Here is my solution for the React component task.',
+      },
+    ],
     grade: undefined,
     gradedBy: undefined,
     gradedAt: undefined,
@@ -148,7 +169,7 @@ export const mockLeaderboardData: LeaderboardData[] = [
     tasksCompleted: 15,
     avgScore: 6.8,
     rank: 1,
-  },
+    },
   {
     id: '2',
     userId: '5',

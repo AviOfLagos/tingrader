@@ -19,9 +19,9 @@ interface Notification {
 }
 
 const mockNotifications: Notification[] = [
-  { id: 1, message: 'New submission received', time: '2 minutes ago', href: '/app/grading' },
-  { id: 2, message: 'New feedback available', time: '5 minutes ago', href: '/app/feedback' },
-  { id: 3, message: 'Task deadline approaching', time: '1 hour ago', href: '/app/tasks' },
+  { id: 1, message: 'New submission received', time: '2 minutes ago', href: '/app/dashboard/grading' },
+  { id: 2, message: 'New feedback available', time: '5 minutes ago', href: '/app/dashboard/grading' },
+  { id: 3, message: 'Task deadline approaching', time: '1 hour ago', href: '/app/dashboard/tasks' },
 ];
 
 const NavbarNotifications = () => {
