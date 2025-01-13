@@ -1,7 +1,14 @@
+
 import FetchDataSteps from "@/components/tutorial/fetch-data-steps";
 import { createClient } from "@/utils/supabase/server";
 import { InfoIcon } from "lucide-react";
 import { redirect } from "next/navigation";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ellum AI',
+  description: `Effortlessly manage, create, and optimize your media content with Ellum's powerful AI insights and automation tools.`,
+};
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
