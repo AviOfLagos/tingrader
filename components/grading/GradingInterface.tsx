@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface Submission {
   id: number;
@@ -118,7 +119,9 @@ const GradingInterface = ({
       >
         {/* Image Carousel */}
         <div className="relative aspect-video bg-gray-100 dark:bg-gray-800">
-          <img
+          <Image
+            width={800}
+            height={400}
             src={submission.attachments[currentImage]}
             alt={`Submission ${currentImage + 1}`}
             className="w-full h-full object-contain"
