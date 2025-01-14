@@ -4,23 +4,22 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { mockMembers, mockSubmissions } from '../../../../api/mock-data';
 import { User, Submission } from '@/types';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import Image from 'next/image';
 
 const InternProfile = () => {
-  const router = useRouter();
   const { query } = useRouter();
   const { username } = query;
-  
+
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [filterScore, setFilterScore] = React.useState('');
+
   const intern = mockMembers.find((member: User) => member.username === username);
 
   if (!intern) {
     return <p>Intern not found</p>;
   }
-
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [filterScore, setFilterScore] = React.useState('');
   
   const filteredSubmissions = mockSubmissions
     .filter(submission => submission.submittedBy === intern.id)
@@ -32,7 +31,7 @@ const InternProfile = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-center space-x-4">
-        <img src="/avi.jpeg" alt="Profile" className="w-24 h-24 rounded-full" />
+        <Image src="/avi.jpeg" alt="Profile" width={96} height={96} className="rounded-full" />
         <div>
           <h1 className="text-2xl font-bold">{intern.name}</h1>
           <p className="text-sm text-muted-foreground">{intern.email}</p>

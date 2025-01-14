@@ -51,7 +51,7 @@ const Submissions = () => {
   });
 
   const handleTaskClick = (taskId: string, gradingType: string) => {
-    router.push(`/app/grading/${taskId}?type=${gradingType}`);
+    router.push(`/app/app/(dashboard)/grading/${taskId}?type=${gradingType}`);
   };
 
   return (

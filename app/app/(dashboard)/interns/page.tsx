@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { mockMembers } from '../../../api/mock-data';
 import { Metadata } from 'next';
-import { InternListView } from '@/components/interns/InternsList';
-import InternsGrid from '@/components/interns/InternsGrid';
 
 export const metadata: Metadata = {
   title: 'Interns',

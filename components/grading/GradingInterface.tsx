@@ -32,12 +32,22 @@ const GradingInterface = ({
   const submissions: Submission[] = [
     {
       id: 1,
-      studentName: 'John Doe',
-      submittedAt: '2024-01-10',
+      studentName: "John Doe",
+      submittedAt: "2024-01-10",
       attachments: [
-        '/api/placeholder/800/400',
-        '/api/placeholder/800/400',
-        '/api/placeholder/800/400',
+        "/api/placeholder/800/400",
+        "/api/placeholder/800/400",
+        "/api/placeholder/800/400",
+      ],
+    },
+    {
+      id: 2,
+      studentName: "John Doe",
+      submittedAt: "2024-01-10",
+      attachments: [
+        "/api/placeholder/800/400",
+        "/api/placeholder/800/400",
+        "/api/placeholder/800/400",
       ],
     },
     // Add more mock submissions

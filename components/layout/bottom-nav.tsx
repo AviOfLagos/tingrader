@@ -106,10 +106,9 @@ const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCrea
           {mobileVisibleTabs.map((tab) => {
             const isActive = pathname === tab.href;
             return (
-              <>
+              <React.Fragment key={tab.id}>
                 {tab.id === 'create' ? (
                   <Link
-                    key={tab.id}
                     href="#"
                     onClick={(e) => {
                       e.preventDefault(); // Prevent default link behavior
@@ -129,7 +128,6 @@ const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCrea
                   </Link>
                 ) : (
                   <Link
-                    key={tab.id}
                     href={tab.href || "#"}
                     prefetch={tab.href !== undefined}
                     className={cn(
@@ -145,10 +143,9 @@ const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCrea
                     <span className="text-xs mt-1">{tab.label}</span>
                   </Link>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
- dispuesto
           {remainingTabs.length > 0 && (
             <Sheet>
               <SheetTrigger asChild>

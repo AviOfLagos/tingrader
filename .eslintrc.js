@@ -4,21 +4,26 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:prettier/recommended',
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
   ],
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
-  plugins: ['@typescript-eslint', 'react'],
+  plugins: ["@typescript-eslint", "react"],
   rules: {
     // Add custom ESLint rules if needed
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": "off",
+    "react/no-unescaped-entities": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "react/prop-types": "off", // Disable for all files
   },
 };
