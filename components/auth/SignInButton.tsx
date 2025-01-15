@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 const SignInButton = () => (
   <Link href="/sign-in">
-    <Button variant="link" className="text-white">
+    <Button variant="outline" className="text-white">
       Sign In
     </Button>
   </Link>

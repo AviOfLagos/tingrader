@@ -91,7 +91,7 @@ export const formatExport = async (
         worksheet[cellRef].s = headerStyle;
       }
 
-      const columnWidths = formattedData.reduce(
+      const columnWidths = formattedData.reduce<Record<string, number>>(
         (acc, row) => {
           Object.entries(row).forEach(([key, value]) => {
             const valueAsString = typeof value === 'object' && value instanceof Date ? value.toLocaleDateString() : String(value);
@@ -99,9 +99,7 @@ export const formatExport = async (
             acc[key] = Math.max(typeof acc[key] === 'number' ? acc[key] : 0, length);
           });
           return acc;
-        },
-        {} as Record<string, number>
-      );
+        }, {} as Record<string, number>);
 
       
             worksheet["!cols"] = Object.values(columnWidths).map((width) => ({

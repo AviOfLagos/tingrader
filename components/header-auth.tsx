@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 
 export default async function AuthButton() {
-  const supabase = await createClient();
+  const cookieStore = cookies();
+  const supabase = await createClient(cookieStore);
 
   const {
     data: { user },

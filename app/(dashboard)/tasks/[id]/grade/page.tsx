@@ -93,7 +93,7 @@ const TaskGradingPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 mb-20">
       <TaskGradesOverview task={task} submissions={submissions} />
     </div>
   );

@@ -7,14 +7,14 @@ export default function AuthPagesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <div className="max-w-7xl flex flex-col gap-12 items-center justify-center min-h-screen ">
+    <div className='h-screen w-full relative flex flex-col items-center justify-center'>
+      <div className="w-screen h-screen flex flex-col gap-12 items-center justify-center max-h-[600px] ">
         {children}
       </div>
       <div className="fixed bottom-10 right-10  backdrop-blur-sm">
         <ThemeToggle />
       </div>
       <div className="fixed  bg-background/80 backdrop-blur-sm" />
-    </>
+    </div>
   );
 }

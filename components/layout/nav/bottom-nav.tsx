@@ -43,12 +43,7 @@ const tabs = [
       label: 'Create',
       icon: PlusCircle,
     },
-    {
-    id: 'grading',
-    label: 'Grade',
-    href: '/grading',
-    icon: BarChart2,
-  },
+    
   {
     id: 'leaderboard',
     label: 'Leaderboard',
@@ -59,12 +54,6 @@ const tabs = [
     id: 'users',
     label: 'Users',
     href: '/users',
-    icon: Users,
-  },
-  {
-    id: 'interns',
-    label: 'Interns',
-    href: '/interns',
     icon: Users,
   },
   {

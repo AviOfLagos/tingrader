@@ -16,13 +16,13 @@ export const mockTasks: Task[] = [
     permissions: {
       canEdit: false,
       canDelete: false,
-      canGrade: false,
-      canSubmit: false,
+      canGrade: true,
+      canSubmit: true,
     },
     submissions: {
       current: 15,
       max: 50,
-      userHasSubmitted: false,
+      userHasSubmitted: true,
     },
     grading: {
       current: 2,
@@ -43,9 +43,9 @@ export const mockTasks: Task[] = [
     createdBy: "user3", // Charlie
     status: "open",
     permissions: {
-      canEdit: false,
+      canEdit: true,
       canDelete: false,
-      canGrade: false,
+      canGrade: true,
       canSubmit: false,
     },
     submissions: {
@@ -85,7 +85,7 @@ export const mockTasks: Task[] = [
     grading: {
       current: 1,
       required: 2,
-      userHasGraded: false,
+      userHasGraded: true,
       pendingGrades: 0,
     },
   },

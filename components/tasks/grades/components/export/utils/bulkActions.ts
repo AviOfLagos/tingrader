@@ -112,7 +112,7 @@ const processBatchWithRateLimit = async <T>(
 const makeApiCall = async (
   endpoint: string,
   method: string,
-  data: Record<string, any>
+  data: BulkActionData
 ): Promise<void> => {
   // Simulate API call
   console.log(`Making ${method} request to ${endpoint}`, data);

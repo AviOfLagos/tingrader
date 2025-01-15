@@ -146,7 +146,7 @@ const Leaderboard: React.FC = () => {
       </div>
 
       {/* Leaderboard Table */}
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white/10">
         <thead>
           <tr>
             <th className="px-4 py-2">

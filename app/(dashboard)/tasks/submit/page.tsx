@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function SubmitTaskPage() {
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto py-6 m-16 ">
       <h1 className="text-2xl font-bold mb-6">Submit Task</h1>
       <TaskSubmissionForm />
     </div>

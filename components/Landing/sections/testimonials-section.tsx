@@ -2,41 +2,43 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { ParallaxText } from "@/components/ui/parallax-text"
 
 const testimonials = [
   {
-    quote: "Tingrader has revolutionized how we grade assignments. It's faster, more efficient, and our students love the quick feedback.",
+    quote:
+      "Tingrader has revolutionized how we grade assignments. It's faster, more efficient, and our students love the quick feedback.",
     author: "Dr. Sarah Johnson",
     role: "Professor of Computer Science",
-    image: "/placeholder.svg"
+    image: "/avi.jpeg",
   },
   {
-    quote: "The interface is intuitive and the grading process is streamlined. It's exactly what we needed for our coding bootcamp.",
+    quote:
+      "The interface is intuitive and the grading process is streamlined. It's exactly what we needed for our coding bootcamp.",
     author: "Michael Chen",
     role: "Lead Instructor",
-    image: "/placeholder.svg"
+    image: "/avi.jpeg",
   },
   {
-    quote: "We've reduced our grading time by 50% while maintaining high-quality feedback. Amazing tool!",
+    quote:
+      "We've reduced our grading time by 50% while maintaining high-quality feedback. Amazing tool!",
     author: "Emily Rodriguez",
     role: "Education Director",
-    image: "/placeholder.svg"
-  }
-]
+    image: "/avi.jpeg",
+  },
+];
 
 export function TestimonialsSection() {
   return (
-    <section className="py-20 bg-muted/50">
+    <section className="py-20 bg-muted/50 ">
       <div className="container">
-        <ParallaxText className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center w-full mx-auto mb-16">
           <h2 className="text-3xl font-bold sm:text-4xl mb-4">
             Loved by educators worldwide
           </h2>
           <p className="text-muted-foreground text-lg">
             See what our users have to say about their experience with Tingrader
           </p>
-        </ParallaxText>
+        </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial, index) => (
             <motion.div

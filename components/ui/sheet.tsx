@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
@@ -11,6 +11,25 @@ const Sheet = DialogPrimitive.Root;
 const SheetTrigger = DialogPrimitive.Trigger;
 const SheetClose = DialogPrimitive.Close;
 const SheetTitle = DialogPrimitive.Title;
+
+// Add SheetHeader component
+const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn('px-4 py-2 border-b', className)} {...props} />
+);
+SheetHeader.displayName = 'SheetHeader';
+
+// Add SheetDescription component
+const SheetDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn('text-sm text-gray-500 dark:text-gray-400 px-4', className)}
+    {...props}
+  />
+));
+SheetDescription.displayName = 'SheetDescription';
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
@@ -47,4 +66,4 @@ const SheetContent = React.forwardRef<
 
 SheetContent.displayName = 'SheetContent';
 
-export { Sheet, SheetTrigger, SheetContent, SheetClose, SheetTitle };
+export { Sheet, SheetTrigger, SheetContent, SheetClose, SheetTitle, SheetHeader, SheetDescription };

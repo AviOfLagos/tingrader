@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 import { HeroSection } from "@/components/Landing/sections/hero-section";
 import { FeaturesSection } from "@/components/Landing/sections/features-section";
 import { TestimonialsSection } from "@/components/Landing/sections/testimonials-section";
@@ -13,14 +13,11 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
+    <main className="flex flex-col gap-6 items-center justify-center">
       <HeroSection />
       <FeaturesSection />
       <TestimonialsSection />
       <BlogSection />
-      <NewsletterSection />
-      <CTASection />
-    </>
+    </main>
   );
 }
-

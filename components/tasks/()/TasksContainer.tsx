@@ -10,6 +10,8 @@ import TaskListView from "./TaskListView";
 import { ViewMode, Task } from "@/types/task";
 import { mockTasks } from "@/mock/tasks";
 import { TRACKS, STAGES, SORT_OPTIONS } from "@/constants/task";
+import CreateTaskButton from "@/components/tasks/create/CreateTaskButton";
+
 
 const TasksContainer: React.FC = () => {
   const router = useRouter();
@@ -83,9 +85,13 @@ const TasksContainer: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 m-16">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <h1 className="text-2xl font-bold">Tasks</h1>
+        <div className="flex flex-col sm:flex-row justify-between gap-4">
+          <h1 className="text-2xl font-bold">Tasks</h1>
+          <CreateTaskButton />
+        </div>
+
         <TaskViewSelector currentView={viewMode} onViewChange={setViewMode} />
       </div>
 

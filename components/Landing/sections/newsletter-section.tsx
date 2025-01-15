@@ -17,8 +17,8 @@ export function NewsletterSection() {
   }
 
   return (
-    <SectionWrapper className="py-20">
-      <div className="container max-w-4xl">
+    <SectionWrapper className="py-20 my-20 w-full ">
+      <div className="container max-w-[80vw] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

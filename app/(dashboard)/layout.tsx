@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from 'react';
-import Navbar from '@/components/layout/navbar';
-import BottomNav from '@/components/layout/bottom-nav';
-import TaskCreationModal from '@/components/tasks/TaskCreationModal';
+import React, { useState } from "react";
+import Navbar from "@/components/layout/nav/navbar";
+import BottomNav from "@/components/layout/nav/bottom-nav";
+import TaskCreationModal from "@/components/tasks/TaskCreationModal";
 
 export default function DashboardLayout({
   children,
@@ -22,11 +22,12 @@ export default function DashboardLayout({
   return (
     <>
       <Navbar />
-      <div className="dashboard-container">
-        {children}
-      </div>
+      <div className="dashboard-container">{children}</div>
       <BottomNav onOpenCreateTaskModal={onOpenCreateTaskModal} />
-      <TaskCreationModal open={isCreateModalOpen} onClose={onCloseCreateTaskModal} />
+      <TaskCreationModal
+        open={isCreateModalOpen}
+        onClose={onCloseCreateTaskModal}
+      />
     </>
   );
 }

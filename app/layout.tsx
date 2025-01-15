@@ -1,4 +1,4 @@
-// app/layout.tsx
+// "use client";
 
 import React from 'react';
 import { Metadata } from 'next';
@@ -19,11 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`min-h-screen m-4 md:m-0 bg-background text-foreground antialiased ${inter.className}`}
+      >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

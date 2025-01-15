@@ -1,10 +1,11 @@
-import React from 'react';
-import NavbarLogo from './NavbarLogo';
-import NavbarSearch from './NavbarSearch';
-import NavbarNotifications from './NavbarNotifications';
-import NavbarUserProfile from './NavbarUserProfile';
-import NavbarInvite from './NavbarInvite';
-import { ThemeToggle } from '@/components/theme-toggle';
+// components/layout/navbar.tsx
+import React from "react";
+import NavbarLogo from "./NavbarLogo";
+import NavbarSearch from "./NavbarSearch";
+import NavbarNotifications from "./NavbarNotifications";
+import NavbarUserProfile from "./NavbarUserProfile";
+import NavbarInvite from "./NavbarInvite";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const DashboardNavbar = () => {
   return (

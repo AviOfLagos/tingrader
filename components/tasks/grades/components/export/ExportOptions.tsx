@@ -112,7 +112,7 @@ const ExportOptions: React.FC<ExportOptionsProps> = ({
     );
 
     try {
-      await executeBulkAction(action, filteredUsers, taskId);
+      await executeBulkAction(action, filteredUsers, { taskId });
       toast.success(`Bulk action '${action}' completed successfully`);
     } catch (error) {
       toast.error(`Failed to execute bulk action: ${error}`);

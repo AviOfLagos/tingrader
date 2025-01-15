@@ -1,33 +1,38 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { GlowCard } from "@/components/Landing/glow-card"
-import { Zap, Star, BarChart, Users, Shield, Clock } from 'lucide-react'
+import { motion } from "framer-motion";
+import { GlowCard } from "@/components/Landing/glow-card";
+import { Zap, Star, BarChart, Users, Shield, Clock } from "lucide-react";
 
 const features = [
   {
     title: "Lightning Fast Grading",
-    description: "Grade assignments with simple swipes or star ratings. No more complex rubrics.",
+    description:
+      "Grade assignments with simple swipes or star ratings. No more complex rubrics.",
     icon: Zap,
   },
   {
     title: "Fair Evaluation",
-    description: "Standardized grading system ensures fair evaluation for all submissions.",
+    description:
+      "Standardized grading system ensures fair evaluation for all submissions.",
     icon: Star,
   },
   {
     title: "Real-time Analytics",
-    description: "Track progress and performance with detailed analytics and insights.",
+    description:
+      "Track progress and performance with detailed analytics and insights.",
     icon: BarChart,
   },
   {
     title: "Team Collaboration",
-    description: "Work together with other graders seamlessly on the same platform.",
+    description:
+      "Work together with other graders seamlessly on the same platform.",
     icon: Users,
   },
   {
     title: "Secure & Private",
-    description: "Your data is encrypted and protected with enterprise-grade security.",
+    description:
+      "Your data is encrypted and protected with enterprise-grade security.",
     icon: Shield,
   },
   {
@@ -35,11 +40,11 @@ const features = [
     description: "Reduce grading time by up to 60% with our efficient system.",
     icon: Clock,
   },
-]
+];
 
 export function FeaturesSection() {
   return (
-    <section className="py-20 relative">
+    <section className="py-20 flex relative rounded-[32px] border-2 border-gray-800/50 bg-background/60 backdrop-blur-sm backdrop-saturate-150 overflow-hidden ">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,8 +57,8 @@ export function FeaturesSection() {
             Everything you need to grade efficiently
           </h2>
           <p className="text-muted-foreground text-lg">
-            Our platform combines the best of modern technology with intuitive design 
-            to make grading a breeze.
+            Our platform combines the best of modern technology with intuitive
+            design to make grading a breeze.
           </p>
         </motion.div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -67,6 +72,5 @@ export function FeaturesSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

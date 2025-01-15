@@ -67,7 +67,7 @@ export default function IntegrationsPage() {
         <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {integrations.map((integration) => (
             <GlowCard key={integration.name} className="relative group">
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col items-start gap-4">
                 <Image
                   src={integration.image}
                   alt={integration.name}
@@ -76,7 +76,7 @@ export default function IntegrationsPage() {
                   className="rounded-lg"
                 />
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <h3 className="text-xl font-semibold">{integration.name}</h3>
                     <span className={`text-xs px-2 py-1 rounded-full ${
                       integration.status === 'Available' 
