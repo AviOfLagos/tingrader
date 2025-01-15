@@ -1,3 +1,5 @@
+// app/layout.tsx
+
 import React from 'react';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -18,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+      <body className="min-h-screen bg-background text-foreground antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

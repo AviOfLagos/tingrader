@@ -34,7 +34,7 @@ const tabs = [
   {
     id: 'tasks',
     label: 'Tasks',
-    href: '/app/tasks',
+    href: '/tasks',
     icon: ClipboardList,
   },
   
@@ -46,43 +46,43 @@ const tabs = [
     {
     id: 'grading',
     label: 'Grade',
-    href: '/app/grading',
+    href: '/grading',
     icon: BarChart2,
   },
   {
     id: 'leaderboard',
     label: 'Leaderboard',
-    href: '/app/leaderboard',
+    href: '/leaderboard',
     icon: Trophy,
   },
   {
     id: 'users',
     label: 'Users',
-    href: '/app/users',
+    href: '/users',
     icon: Users,
   },
   {
     id: 'interns',
     label: 'Interns',
-    href: '/app/interns',
+    href: '/interns',
     icon: Users,
   },
   {
     id: 'submit',
     label: 'Submit',
-    href: '/app/tasks/submit',
+    href: '/tasks/submit',
     icon: Send,
   },
   {
     id: 'profile',
     label: 'Profile',
-    href: '/app/profile',
+    href: '/profile',
     icon: User,
   },
   {
     id: 'settings',
     label: 'Settings',
-    href: '/app/settings',
+    href: '/settings',
     icon: Settings,
   },
   // Add more tabs here if needed

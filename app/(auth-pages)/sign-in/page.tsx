@@ -8,14 +8,8 @@ import Link from 'next/link';
 export default async function Login(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
   return (
-    <form className="flex-1 flex flex-col min-w-64">
+    <form className=" flex-1 flex flex-col min-w-64 min-h-screen p-4 item-center justify-center ">
       <h1 className="text-2xl font-medium">Sign in</h1>
-      <p className="text-sm text-foreground">
-        Don&apos;t have an account?{' '}
-        <Link className="text-foreground font-medium underline" href="/sign-up">
-          Sign up
-        </Link>
-      </p>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <Label htmlFor="email">Email</Label>
         <Input name="email" placeholder="you@example.com" required />
@@ -38,7 +32,26 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           Sign in
         </SubmitButton>
         <FormMessage message={searchParams} />
+        <div className="flex  gap-2">
+          <p className="text-sm text-foreground/60 ">
+            Don&apos;t have an account?{" "}
+            <Link
+              className="text-foreground/60 font-medium underline"
+              href="/sign-up"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 p-4 mt-10 bg-slate-200/10 border border-dashed border-foreground/60 rounded-lg">
+        <h1>Test Info</h1>
+
+        <p>Email: hostelbros+2@gmail.com</p>
+        <p>Password: password2</p>
+        <p>Username: hostelbros</p>
       </div>
     </form>
+    
   );
 }
