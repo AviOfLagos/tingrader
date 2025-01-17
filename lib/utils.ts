@@ -1,13 +1,20 @@
-"use client";
+// lib/utils.ts
 
-import { clsx, ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-/**
- * Combines class names using `clsx` and `tailwind-merge`.
- * @param inputs Class values to be combined.
- * @returns A single class string with merged Tailwind classes.
- */
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(...inputs));
+export function cn(
+  ...classes: Array<string | undefined | { [key: string]: boolean }>
+): string {
+  return classes
+    .flatMap((cls) => {
+      if (typeof cls === 'string') {
+        return cls;
+      } else if (typeof cls === 'object' && cls !== null) {
+        return Object.entries(cls)
+          .filter(([, value]) => Boolean(value))
+          .map(([key]) => key);
+      } else {
+        return [];
+      }
+    })
+    .filter(Boolean)
+    .join(' ');
 }

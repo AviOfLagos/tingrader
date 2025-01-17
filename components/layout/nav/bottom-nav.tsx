@@ -1,8 +1,8 @@
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Home,
   ClipboardList,
@@ -15,76 +15,74 @@ import {
   User,
   Settings,
   Trophy,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
   SheetClose,
-} from '@/components/ui/sheet';
+} from "@/components/ui/sheet";
 
 const tabs = [
   {
-    id: 'home',
-    label: 'Home',
-    href: '/app/',
+    id: "dashboard",
+    label: "Dashboard",
+    href: "/dashboard",
     icon: Home,
   },
   {
-    id: 'tasks',
-    label: 'Tasks',
-    href: '/tasks',
+    id: "tasks",
+    label: "Tasks",
+    href: "/tasks",
     icon: ClipboardList,
   },
-  
-    {
-      id: 'create',
-      label: 'Create',
-      icon: PlusCircle,
-    },
-    
   {
-    id: 'leaderboard',
-    label: 'Leaderboard',
-    href: '/leaderboard',
+    id: "create",
+    label: "Create",
+    href: "/tasks/create",
+    icon: PlusCircle,
+  },
+  {
+    id: "leaderboard",
+    label: "Leaderboard",
+    href: "/leaderboard",
     icon: Trophy,
   },
   {
-    id: 'users',
-    label: 'Users',
-    href: '/users',
-    icon: Users,
-  },
-  {
-    id: 'submit',
-    label: 'Submit',
-    href: '/tasks/submit',
+    id: "submissions",
+    label: "Submissions",
+    href: "/tasks/submissions",
     icon: Send,
   },
   {
-    id: 'profile',
-    label: 'Profile',
-    href: '/profile',
+    id: "users",
+    label: "Users",
+    href: "/users",
+    icon: Users,
+  },
+  {
+    id: "profile",
+    label: "Profile",
+    href: "/profile",
     icon: User,
   },
   {
-    id: 'settings',
-    label: 'Settings',
-    href: '/settings',
+    id: "settings",
+    label: "Settings",
+    href: "/settings",
     icon: Settings,
   },
-  // Add more tabs here if needed
 ];
 
-
-
-const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCreateTaskModal }) => {
+const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({
+  onOpenCreateTaskModal,
+}) => {
   const pathname = usePathname();
 
   const mobileVisibleTabs = tabs.slice(0, 4); // Show only first 4 tabs in bottom nav
-  const remainingTabs = tabs.slice(4); // Rest go to 'More' menu
 
+  const remainingTabs = tabs.slice(4); // Rest go to 'More' menu
   // Check if any of the remainingTabs are active
   const isMoreActive = remainingTabs.some((tab) => pathname === tab.href);
 
@@ -95,57 +93,35 @@ const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCrea
           {mobileVisibleTabs.map((tab) => {
             const isActive = pathname === tab.href;
             return (
-              <React.Fragment key={tab.id}>
-                {tab.id === 'create' ? (
-                  <Link
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent default link behavior
-                      onOpenCreateTaskModal();
-                    }}
-                    className={cn(
-                      'flex flex-col items-center justify-center flex-1 h-full',
-                      'transition-colors',
-                      isActive
-                        ? 'text-purple-600 bg-purple-100'
-                        : 'text-muted-foreground',
-                      'hover:bg-gray-500/20'
-                    )}
-                  >
-                    <PlusCircle className="h-5 w-5" />
-                    <span className="text-xs mt-1">Create</span>
-                  </Link>
-                ) : (
-                  <Link
-                    href={tab.href || "#"}
-                    prefetch={tab.href !== undefined}
-                    className={cn(
-                      'flex flex-col items-center justify-center flex-1 h-full',
-                      'transition-colors',
-                      isActive
-                        ? 'text-purple-600 bg-purple-100'
-                        : 'text-muted-foreground',
-                      'hover:bg-gray-500/20'
-                    )}
-                  >
-                    {tab.icon && <tab.icon className="h-5 w-5" />}
-                    <span className="text-xs mt-1">{tab.label}</span>
-                  </Link>
+              <Link
+                key={tab.id}
+                href={tab.href}
+                className={cn(
+                  "flex flex-col items-center justify-center flex-1 h-full",
+                  "transition-colors",
+                  isActive
+                    ? "text-purple-600 bg-purple-100"
+                    : "text-muted-foreground",
+                  "hover:bg-gray-500/20"
                 )}
-              </React.Fragment>
+              >
+                {tab.icon && <tab.icon className="h-5 w-5" />}
+                <span className="text-xs mt-1">{tab.label}</span>
+              </Link>
             );
           })}
+
           {remainingTabs.length > 0 && (
             <Sheet>
               <SheetTrigger asChild>
                 <button
                   className={cn(
-                    'flex flex-col items-center justify-center flex-1 h-full',
-                    'transition-colors',
+                    "flex flex-col items-center justify-center flex-1 h-full",
+                    "transition-colors",
                     isMoreActive
-                      ? 'text-purple-600 bg-purple-100'
-                      : 'text-muted-foreground',
-                    'hover:bg-gray-500/20'
+                      ? "text-purple-600 bg-purple-100"
+                      : "text-muted-foreground",
+                    "hover:bg-gray-500/20"
                   )}
                 >
                   <Menu className="h-5 w-5" />
@@ -159,15 +135,14 @@ const BottomNav: React.FC<{ onOpenCreateTaskModal: () => void }> = ({ onOpenCrea
                     return (
                       <SheetClose asChild key={tab.id}>
                         <Link
-                          href={tab.href || "#"}
-                          prefetch={tab.href !== undefined}
+                          href={tab.href}
                           className={cn(
-                            'flex flex-col items-center justify-center p-4 rounded-lg',
-                            'transition-colors',
+                            "flex flex-col items-center justify-center p-4 rounded-lg",
+                            "transition-colors",
                             isActive
-                              ? 'text-purple-600 bg-purple-100'
-                              : 'text-muted-foreground',
-                            'hover:bg-gray-500/20'
+                              ? "text-purple-600 bg-purple-100"
+                              : "text-muted-foreground",
+                            "hover:bg-gray-500/20"
                           )}
                         >
                           <tab.icon className="h-6 w-6" />

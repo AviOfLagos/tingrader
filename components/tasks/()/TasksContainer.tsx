@@ -10,7 +10,7 @@ import TaskListView from "./TaskListView";
 import { ViewMode, Task } from "@/types/task";
 import { mockTasks } from "@/mock/tasks";
 import { TRACKS, STAGES, SORT_OPTIONS } from "@/constants/task";
-import CreateTaskButton from "@/components/tasks/create/CreateTaskButton";
+import CreateTaskPage from "@/app/(dashboard)/tasks/create/page";
 
 
 const TasksContainer: React.FC = () => {
@@ -89,7 +89,7 @@ const TasksContainer: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="flex flex-col sm:flex-row justify-between gap-4">
           <h1 className="text-2xl font-bold">Tasks</h1>
-          <CreateTaskButton />
+          <CreateTaskPage />
         </div>
 
         <TaskViewSelector currentView={viewMode} onViewChange={setViewMode} />

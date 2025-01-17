@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const DashboardNavbar = () => {
   return (
-    <header className="Fixed top-0 inset-x-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="Sticky top-0 inset-x-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         {/* Logo */}
         <NavbarLogo />

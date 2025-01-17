@@ -1,151 +1,198 @@
+// app/tasks/create/page.tsx
 "use client";
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Plus, Search, Calendar, Star, ThumbsUp } from "lucide-react";
-import TaskCreationModal from "@/components/tasks/create/TaskCreationModal";
+  useTaskFormStore,
+  TaskFormData,
+} from "@/components/tasks/create/store/taskFormStore";
+import { BasicInformation } from "@/components/tasks/create/BasicInformation";
+import { GradingSettings } from "@/components/tasks/create/GradingSettings";
+import { AdvancedGradingSettings } from "./AdvancedGradingSettings";
+import { DeadlineSettings } from "@/components/tasks/create/DeadlineSettings";
+import { TaskInstructions } from "@/components/tasks/create/TaskInstructions";
+import { toast } from "sonner";
 
-// Mock data
-const mockTasks = [
-  {
-    id: "1",
-    title: "Build a REST API",
-    track: "Backend",
-    stage: "Stage 2",
-    dueDate: "2025-01-20",
-    status: "active",
-    submissions: 12,
-    pendingGrades: 5,
-    gradingType: "stars",
-  },
-  {
-    id: "2",
-    title: "Create a React Component Library",
-    track: "Frontend",
-    stage: "Stage 1",
-    dueDate: "2025-01-18",
-    status: "active",
-    submissions: 8,
-    pendingGrades: 3,
-    gradingType: "swipe",
-  },
-  // Add more mock tasks...
-];
+const taskFormSchema = z.object({
+  title: z.string().min(1, "Title is required").max(100),
+  description: z.string().min(1, "Description is required").max(500),
+  track: z.enum(["frontend", "backend", "design", "mobile"]),
+  stage: z.coerce.number().min(1).max(10),
+  gradingType: z.enum(["stars", "swipe"]),
+  dueDate: z.date({
+    required_error: "Due date is required",
+  }),
+  maxSubmissions: z.coerce.number().min(1),
+  requiredGrades: z.coerce.number().min(1),
+  instructions: z.string().min(1, "Instructions are required"),
+  isDraft: z.boolean(),
+  gradingConfig: z.object({
+    maxStars: z.number().min(1).max(10).optional(),
+    passMarkPerGrader: z.number().min(0).optional(),
+  }),
+  settings: z.object({
+    allowLateSubmissions: z.boolean(),
+    gracePeriodHours: z.number().min(1).max(168),
+    requireGraderFeedback: z.boolean(),
+    autoPublishGrades: z.boolean(),
+    notifyOnSubmission: z.boolean(),
+  }),
+});
 
-export default function TasksPage() {
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState("all");
-  const [selectedStage, setSelectedStage] = useState("all");
+export default function CreateTaskPage() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const { formData, updateForm, resetForm } = useTaskFormStore();
+
+  const form = useForm<TaskFormData>({
+    resolver: zodResolver(taskFormSchema),
+    defaultValues: formData,
+  });
+
+  // Load cached form data on mount
+  useEffect(() => {
+    const cachedData = localStorage.getItem("task-form-data");
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      // Convert date string back to Date object
+      if (parsedData.dueDate) {
+        parsedData.dueDate = new Date(parsedData.dueDate);
+      }
+      form.reset(parsedData);
+    }
+  }, [form]);
+
+  // Update store and cache when form changes
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      const dataToCache = { ...value };
+      // Store the form data in localStorage
+      localStorage.setItem("task-form-data", JSON.stringify(dataToCache));
+      updateForm(value as TaskFormData);
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch, updateForm]);
+
+  async function onSubmit(data: TaskFormData, asDraft: boolean = false) {
+    try {
+      setIsSubmitting(true);
+      setError(null);
+
+      const finalData = {
+        ...data,
+        isDraft: asDraft,
+      };
+
+      // Log the complete form data response body
+      console.log("Task Creation Request Body:", {
+        method: "POST",
+        endpoint: "/api/tasks",
+        payload: finalData,
+      });
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (!asDraft) {
+        // Clear cached data
+        localStorage.removeItem("task-form-data");
+        resetForm();
+        toast.success("Task created successfully!");
+        router.push("/tasks");
+      } else {
+        toast.success("Draft saved successfully!");
+      }
+    } catch (error) {
+      console.error("Failed to create task:", error);
+      setError("Failed to create task. Please try again.");
+      toast.error("Failed to create task");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
-    <div className="space-y-6 m-16">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="container mx-auto py-8 max-w-3xl m-16 ">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Tasks</h1>
+          <h1 className="text-3xl font-bold">Create New Task</h1>
           <p className="text-muted-foreground">
-            Create and manage assessment tasks
+            Create a new task for your track
           </p>
         </div>
-        <Button onClick={() => setShowCreateModal(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Create Task
-        </Button>
       </div>
 
-      {/* Filters */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="sm:col-span-2 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input className="pl-9" placeholder="Search tasks..." />
-        </div>
+      {error && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
 
-        <Select value={selectedTrack} onValueChange={setSelectedTrack}>
-          <SelectTrigger>
-            <SelectValue placeholder="Track" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Tracks</SelectItem>
-            <SelectItem value="frontend">Frontend</SelectItem>
-            <SelectItem value="backend">Backend</SelectItem>
-            <SelectItem value="mobile">Mobile</SelectItem>
-          </SelectContent>
-        </Select>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit((data) => onSubmit(data, false))}
+          className="space-y-6"
+        >
+          <Card className="p-6">
+            <div className="space-y-8">
+              {/* Basic Information */}
+              <BasicInformation form={form} />
 
-        <Select value={selectedStage} onValueChange={setSelectedStage}>
-          <SelectTrigger>
-            <SelectValue placeholder="Stage" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Stages</SelectItem>
-            <SelectItem value="stage1">Stage 1</SelectItem>
-            <SelectItem value="stage2">Stage 2</SelectItem>
-            <SelectItem value="stage3">Stage 3</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Task List */}
-      <div className="grid gap-4">
-        {mockTasks.map((task) => (
-          <Card key={task.id} className="p-4">
-            <div className="flex flex-col sm:flex-row justify-between gap-4">
-              <div className="space-y-1">
-                <h3 className="font-semibold">{task.title}</h3>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>{task.track}</span>
-                  <span>•</span>
-                  <span>{task.stage}</span>
-                  <span>•</span>
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    {new Date(task.dueDate).toLocaleDateString()}
-                  </div>
-                </div>
+              {/* Grading Settings */}
+              <div className="space-y-6">
+                <GradingSettings form={form} />
+                <AdvancedGradingSettings form={form} />
               </div>
 
-              <div className="flex items-center gap-4">
-                {/* Grading Method Indicator */}
-                <div className="flex items-center text-muted-foreground">
-                  {task.gradingType === "stars" ? (
-                    <Star className="h-4 w-4" />
-                  ) : (
-                    <ThumbsUp className="h-4 w-4" />
+              {/* Deadline Settings */}
+              <DeadlineSettings form={form} />
+
+              {/* Task Instructions */}
+              <TaskInstructions form={form} />
+
+              {/* Form Actions */}
+              <div className="flex justify-end space-x-4 pt-4 border-t">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    resetForm();
+                    localStorage.removeItem("task-form-data");
+                    form.reset();
+                  }}
+                  disabled={isSubmitting}
+                >
+                  Reset
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => onSubmit(form.getValues(), true)}
+                  disabled={isSubmitting}
+                >
+                  Save as Draft
+                </Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                </div>
-
-                {/* Submission Stats */}
-                <div className="text-right">
-                  <div className="text-sm font-medium">
-                    {task.submissions} submissions
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {task.pendingGrades} pending grades
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <Button variant="outline">View Details</Button>
+                  Create Task
+                </Button>
               </div>
             </div>
           </Card>
-        ))}
-      </div>
-
-      {/* Task Creation Modal */}
-      <TaskCreationModal
-        isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-      />
+        </form>
+      </Form>
     </div>
   );
 }
