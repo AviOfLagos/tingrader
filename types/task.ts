@@ -1,8 +1,7 @@
-// types/task.ts
-export type TaskStatus = 'open' | 'closed';
-export type TrackName = 'frontend' | 'backend' | 'design' | 'mobile';
-export type GradingType = 'stars' | 'swipe';
-export type ViewMode = 'grid' | 'list';
+export type TaskStatus = "draft" | "open" | "closed";
+export type TrackName = "frontend" | "backend" | "design" | "mobile";
+export type GradingType = "stars" | "swipe";
+export type ViewMode = "grid" | "list";
 
 export interface TaskSubmission {
   id: string;
@@ -33,16 +32,31 @@ export interface Task {
   status: TaskStatus;
   createdBy: string;
   createdAt: string;
-  dueDate: string;
+  dueDate: string; // Changed from 'string | null' to 'string'
   gradingType: GradingType;
-  submissions: {
+  maxSubmissions: number;
+  requiredGrades: number;
+  instructions: string;
+  isDraft: boolean;
+  gradingConfig: {
+    maxStars?: number;
+    passMarkPerGrader?: number;
+  };
+  settings: {
+    allowLateSubmissions: boolean;
+    gracePeriodHours: number;
+    requireGraderFeedback: boolean;
+    autoPublishGrades: boolean;
+    notifyOnSubmission: boolean;
+  };
+  submissions?: {
     current: number;
     max: number;
     userHasSubmitted: boolean;
   };
   grading: {
-    required: number;
     current: number;
+    required: number;
     userHasGraded: boolean;
     pendingGrades: number;
   };
@@ -70,16 +84,49 @@ export interface UserGradeInfo {
   // Include other relevant fields as needed
 }
 
-export interface QuickActions {
-  primary: {
-    submit?: boolean;
-    grade?: boolean;
-    view?: boolean;
+// Default values for task form data
+export const defaultTaskFormData: TaskFormData = {
+  title: "",
+  description: "",
+  track: "frontend",
+  stage: 1,
+  gradingType: "swipe",
+  dueDate: new Date(), // Changed from new Date().toISOString() to new Date()
+  maxSubmissions: 3,
+  requiredGrades: 2,
+  instructions: "",
+  isDraft: true,
+  gradingConfig: {},
+  settings: {
+    allowLateSubmissions: false,
+    gracePeriodHours: 24,
+    requireGraderFeedback: true,
+    autoPublishGrades: false,
+    notifyOnSubmission: true,
+  },
+};
+
+// Types for task form data
+export interface TaskFormData {
+  title: string;
+  description: string;
+  track: TrackName;
+  stage: number;
+  gradingType: GradingType;
+  dueDate: Date | null;
+  maxSubmissions: number;
+  requiredGrades: number;
+  instructions: string;
+  isDraft: boolean;
+  gradingConfig: {
+    maxStars?: number;
+    passMarkPerGrader?: number;
   };
-  secondary: {
-    edit?: boolean;
-    delete?: boolean;
-    share: boolean;
-    duplicate?: boolean;
+  settings: {
+    allowLateSubmissions: boolean;
+    gracePeriodHours: number;
+    requireGraderFeedback: boolean;
+    autoPublishGrades: boolean;
+    notifyOnSubmission: boolean;
   };
 }

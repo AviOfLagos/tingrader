@@ -140,7 +140,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
             </div>
             <div className="flex gap-2">
               {task.permissions.canSubmit &&
-                !task.submissions.userHasSubmitted && (
+                task.submissions && !task.submissions.userHasSubmitted && (
                   <Button onClick={onSubmit} variant="default">
                     Submit Solution
                   </Button>
@@ -171,14 +171,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
               <div className="flex items-center">
                 <Users className="w-5 h-5 mr-2" />
                 <span className="text-2xl font-bold">
-                  {task.submissions.current}
+                  {task.submissions?.current}
                 </span>
                 <span className="text-muted-foreground ml-1">
-                  /{task.submissions.max}
+                  /{task.submissions?.max}
                 </span>
               </div>
               <Progress
-                value={(task.submissions.current / task.submissions.max) * 100}
+                value={task.submissions && task.submissions.current != null && task.submissions.max != null ? (task.submissions.current / task.submissions.max) * 100 : 0}
                 className="w-20"
               />
             </div>
@@ -210,7 +210,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
             <div className="flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
               <span className="text-2xl font-bold">
-                {new Date(task.dueDate).toLocaleDateString()}
+                {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "No due date"}
               </span>
             </div>
           </CardContent>

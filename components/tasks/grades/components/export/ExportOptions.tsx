@@ -93,7 +93,9 @@ const ExportOptions: React.FC<ExportOptionsProps> = ({
         a.download = `${taskTitle}-${status}-users.${format}`;
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
+        if (document.body.contains(a)) {
+          document.body.removeChild(a);
+        }
         toast.success(
           `Downloaded ${filteredUsers.length} user${filteredUsers.length !== 1 ? "s" : ""}`
         );

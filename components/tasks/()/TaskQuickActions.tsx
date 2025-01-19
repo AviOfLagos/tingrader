@@ -36,7 +36,7 @@ const TaskQuickActions: React.FC<TaskQuickActionsProps> = ({
   };
 
   const getPrimaryAction = () => {
-    if (task.permissions.canSubmit && !task.submissions.userHasSubmitted) {
+    if (task.permissions.canSubmit && (!task.submissions || !task.submissions.userHasSubmitted)) {
       return {
         label: 'Submit',
         icon: ClipboardEdit,

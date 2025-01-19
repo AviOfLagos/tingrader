@@ -36,9 +36,9 @@ const TaskListView: React.FC<TaskListViewProps> = ({ tasks, onAction }) => {
   const getStatusBadge = (task: Task) => {
     const color =
       task.status === "closed" ||
-      task.submissions.current >= task.submissions.max
+      (task.submissions && task.submissions.current != null && task.submissions.max != null && task.submissions.current >= task.submissions.max)
         ? "destructive"
-        : task.submissions.current >= task.submissions.max * 0.8
+        : (task.submissions && task.submissions.current != null && task.submissions.max != null && task.submissions.current >= task.submissions.max * 0.8)
           ? "secondary"
           : "default";
 
@@ -105,7 +105,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({ tasks, onAction }) => {
               <TableCell>
                 <div className="flex gap-2 text-nowrap">
                   {getStatusBadge(task)}
-                  {task.submissions.userHasSubmitted && (
+                  {task.submissions?.userHasSubmitted && (
                     <Badge variant="outline">Submitted</Badge>
                   )}
                   {task.grading.userHasGraded && (
@@ -117,14 +117,14 @@ const TaskListView: React.FC<TaskListViewProps> = ({ tasks, onAction }) => {
               <TableCell>
                 <div className="flex items-center  ">
                   <span className="flex  text-sm items-center text-center">
-                    {getTimeRemaining(task.dueDate)}
+                    {task.dueDate ? getTimeRemaining(task.dueDate) : "No due date"}
                   </span>
                 </div>
               </TableCell>
 
               <TableCell>
                 <div className="flex items-center justify-center text-nowrap">
-                  {task.submissions.current}/{task.submissions.max}
+                  {task.submissions?.current}/{task.submissions?.max}
                 </div>
               </TableCell>
 

@@ -1,3 +1,76 @@
+// mock/tracks.ts
+
+export const mockTracks = [
+  {
+    id: "frontend",
+    name: "Frontend Development",
+    description: "Learn how to build modern web interfaces",
+    stages: ["1", "2", "3"],
+    is_active: true,
+    total_tasks: 10,
+    created_at: new Date().toISOString(),
+    created_by: "user123",
+    isJoined: false,
+  },
+  {
+    id: "backend",
+    name: "Backend Development",
+    description: "Learn how to build scalable backend systems",
+    stages: ["1", "2", "3"],
+    is_active: true,
+    total_tasks: 8,
+    created_at: new Date().toISOString(),
+    created_by: "user123",
+    isJoined: false,
+  },
+  {
+    id: "design",
+    name: "UI/UX Design",
+    description: "Master the art of user interface and experience design",
+    stages: ["1", "2"],
+    is_active: true,
+    total_tasks: 5,
+    created_at: new Date().toISOString(),
+    created_by: "user123",
+    isJoined: false,
+  },
+  {
+    id: "devops",
+    name: "Dev Ops ",
+    description:
+      "Learn modern devops technologies including docker, teraform, and Q8s",
+    stages: ["1", "2", "3"],
+    is_active: true,
+    total_tasks: 15,
+    created_at: "2024-01-01T00:00:00Z",
+    created_by: "user1",
+    isJoined: false,
+  },
+  {
+    id: "testers",
+    name: "product testers ",
+    description: "Master product testering with python, and testing tools",
+    stages: ["1", "2", "3"],
+    is_active: true,
+    total_tasks: 12,
+    created_at: "2024-01-02T00:00:00Z",
+    created_by: "user1",
+    isJoined: true,
+  },
+  {
+    id: "mobile",
+    name: "Mobile Development",
+    description: "Build mobile applications using React Native",
+    stages: ["1", "2", "4", "5", "6"],
+    is_active: false,
+    total_tasks: 8,
+    created_at: "2024-01-03T00:00:00Z",
+    created_by: "user1",
+    isJoined: false,
+  },
+  // Add more mock tracks as needed
+];
+
 // app/api/mock-data.ts
 import {
   Task,
@@ -64,199 +137,12 @@ export const mockUsers: User[] = [
       canManageUsers: true,
     },
   },
-  {
-    id: "user4",
-    email: "dave@example.com",
-    name: "Dave",
-    username: "dave",
-    role: "mentor",
-    trackId: "design",
-    tracks: ["design"],
-    permissions: {
-      canCreateTasks: true,
-      canEditTasks: true,
-      canDeleteTasks: true,
-      canGrade: true,
-      canSubmit: false,
-      canInviteUsers: true,
-      canManageUsers: true,
-    },
-  },
-  {
-    id: "user5",
-    email: "eve@example.com",
-    name: "Eve",
-    username: "eve",
-    role: "mentor",
-    trackId: "frontend",
-    tracks: ["frontend"],
-    permissions: {
-      canCreateTasks: true,
-      canEditTasks: true,
-      canDeleteTasks: true,
-      canGrade: true,
-      canSubmit: false,
-      canInviteUsers: true,
-      canManageUsers: true,
-    },
-  },
-  {
-    id: "user6",
-    email: "frank@example.com",
-    name: "Frank",
-    username: "frank",
-    role: "mentor",
-    trackId: "frontend",
-    tracks: ["frontend"],
-    permissions: {
-      canCreateTasks: true,
-      canEditTasks: true,
-      canDeleteTasks: true,
-      canGrade: true,
-      canSubmit: false,
-      canInviteUsers: true,
-      canManageUsers: true,
-    },
-  },
-  {
-    id: "user7",
-    email: "grace@example.com",
-    name: "Grace",
-    username: "grace",
-    role: "intern",
-    trackId: "design",
-    tracks: ["design"],
-    permissions: {
-      canCreateTasks: false,
-      canEditTasks: false,
-      canDeleteTasks: false,
-      canGrade: false,
-      canSubmit: true,
-      canInviteUsers: false,
-      canManageUsers: false,
-    },
-  },
-  {
-    id: "user8",
-    email: "heidi@example.com",
-    name: "Heidi",
-    username: "heidi",
-    role: "intern",
-    trackId: "frontend",
-    tracks: ["frontend"],
-    permissions: {
-      canCreateTasks: false,
-      canEditTasks: false,
-      canDeleteTasks: false,
-      canGrade: false,
-      canSubmit: true,
-      canInviteUsers: false,
-      canManageUsers: false,
-    },
-  },
-  {
-    id: "user9",
-    email: "ivan@example.com",
-    name: "Ivan",
-    username: "ivan",
-    role: "intern",
-    trackId: "backend",
-    tracks: ["backend"],
-    permissions: {
-      canCreateTasks: false,
-      canEditTasks: false,
-      canDeleteTasks: false,
-      canGrade: false,
-      canSubmit: true,
-      canInviteUsers: false,
-      canManageUsers: false,
-    },
-  },
-  {
-    id: "user10",
-    email: "judy@example.com",
-    name: "Judy",
-    username: "judy",
-    role: "intern",
-    trackId: "design",
-    tracks: ["design"],
-    permissions: {
-      canCreateTasks: false,
-      canEditTasks: false,
-      canDeleteTasks: false,
-      canGrade: false,
-      canSubmit: true,
-      canInviteUsers: false,
-      canManageUsers: false,
-    },
-  },
-  {
-    id: "user11",
-    email: "john@example.com",
-    name: "John Doe",
-    username: "johndoe",
-    role: "mentor",
-    trackId: "frontend",
-    tracks: ["frontend"],
-    permissions: {
-      canCreateTasks: true,
-      canEditTasks: true,
-      canDeleteTasks: true,
-      canGrade: true,
-      canSubmit: false,
-      canInviteUsers: true,
-      canManageUsers: true,
-    },
-  },
-  {
-    id: "user12",
-    email: "jane@example.com",
-    name: "Jane Smith",
-    username: "janesmith",
-    role: "grader",
-    trackId: "backend",
-    tracks: ["backend"],
-    permissions: {
-      canCreateTasks: false,
-      canEditTasks: true,
-      canDeleteTasks: false,
-      canGrade: true,
-      canSubmit: false,
-      canInviteUsers: false,
-      canManageUsers: false,
-    },
-  },
+
   // Add more mock users as needed...
 ];
 
 // Mock Members Data (Exported)
 export const mockMembers: User[] = mockUsers;
-
-
-// Mock Tracks Data
-export const mockTracks: Track[] = [
-  {
-    id: "frontend",
-    name: "Frontend",
-    description: "Frontend development track",
-  },
-  {
-    id: "backend",
-    name: "Backend",
-    description: "Backend development track",
-  },
-  {
-    id: "design",
-    name: "Design",
-    description: "Design track",
-  },
-  {
-    id: "mobile",
-    name: "Mobile",
-    description: "Mobile development track",
-  },
-  // Add more mock tracks as needed...
-];
 
 // Mock Submissions Data
 export const mockSubmissions: Submission[] = [
@@ -773,7 +659,7 @@ export const mockLeaderboardData: LeaderboardData[] = [
   {
     id: "leaderboard5",
     userId: "user6",
-    taskId: "6",
+    taskId: "5",
     name: "Frank",
     track: "Frontend",
     stage: "1",
@@ -831,11 +717,4 @@ export const mockLeaderboardData: LeaderboardData[] = [
     rank: 9,
   },
   // Add more leaderboard entries as needed...
-];
-
-
-export const mockStages = [
-  { id: 1, name: "Stage 1" },
-  { id: 2, name: "Stage 2" },
-  { id: 3, name: "Stage 3" },
 ];

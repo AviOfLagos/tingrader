@@ -16,53 +16,42 @@ Tingrader is a modern grading and task management application with a user-friend
 - **TailwindCSS**
 - **shadcn/ui components**
 
-## Folder Structure
+---
 
-```
-tingrader/
-├── app/
-│   ├── (auth)/
-│   │   ├── login/
-│   │   └── register/
-│   ├── (dashboard)/
-│   │   ├── tasks/
-│   │   ├── grading/
-│   │   ├── leaderboard/
-│   │   ├── interns/
-│   │   └── create/
-│   ├── api/
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/
-│   ├── layout/
-│   │   ├── dashboard-layout.tsx
-│   │   ├── navbar.tsx
-│   │   └── bottom-nav.tsx
-│   ├── tasks/
-│   ├── grading/
-│   ├── leaderboard/
-│   └── interns/
-├── lib/
-│   ├── hooks/
-│   ├── utils/
-│   └── types/
-├── public/
-└── styles/
-```
+**Flow now works like this**:
 
-## Getting Started
+1. User fills out form
+2. On submit:
+
+* If successful: Shows success modal with sharing options
+* If error: Shows error modal with retry option
+
+3. From success modal, user can:
+
+* Copy task link
+* Share via email
+* View the task details
+* Create another task
+
+---
+
+
+
+## 
+Getting Started
 
 1. **Install Dependencies**
+
    ```bash
    npm install
    ```
-
 2. **Run the Development Server**
+
    ```bash
    npm run dev
    ```
-
 3. **Build for Production**
+
    ```bash
    npm run build
    ```

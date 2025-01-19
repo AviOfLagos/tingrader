@@ -1,5 +1,6 @@
 // components/tasks/create/TaskInstructions.tsx
 import React from "react";
+import { UseFormReturn } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -9,11 +10,10 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { UseFormReturn } from "react-hook-form";
-import { TaskFormData } from "./store/taskFormStore";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, FileText } from "lucide-react";
+import { TaskFormData } from "@/types/TaskFormData";
 
 interface TaskInstructionsProps {
   form: UseFormReturn<TaskFormData>;
@@ -21,26 +21,32 @@ interface TaskInstructionsProps {
 
 export function TaskInstructions({ form }: TaskInstructionsProps) {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Task Instructions</h2>
-      </div>
+    <Card className="p-6">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">Task Instructions</h2>
+            <p className="text-sm text-muted-foreground">
+              Provide clear instructions for completing the task
+            </p>
+          </div>
+          <FileText className="h-5 w-5 text-muted-foreground" />
+        </div>
 
-      <Alert>
-        <InfoIcon className="h-4 w-4" />
-        <AlertDescription>
-          Provide clear and detailed instructions. Include any specific
-          requirements, guidelines, or resources needed to complete the task.
-        </AlertDescription>
-      </Alert>
+        <Alert>
+          <InfoIcon className="h-4 w-4" />
+          <AlertDescription>
+            Provide clear, detailed instructions that explain what students need
+            to do, submission requirements, and evaluation criteria.
+          </AlertDescription>
+        </Alert>
 
-      <Card className="p-4">
         <FormField
           control={form.control}
           name="instructions"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Detailed Instructions</FormLabel>
+              <FormLabel>Instructions</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Enter detailed task instructions..."
@@ -49,22 +55,30 @@ export function TaskInstructions({ form }: TaskInstructionsProps) {
                 />
               </FormControl>
               <FormDescription>
-                You can use markdown for formatting. Include:
+                Include:
+                <ul className="list-disc list-inside mt-2 space-y-1">
+                  <li>Clear objectives and requirements</li>
+                  <li>Step-by-step instructions if applicable</li>
+                  <li>Evaluation criteria and grading rubric</li>
+                  <li>Any resources or references needed</li>
+                  <li>Submission format guidelines</li>
+                </ul>
               </FormDescription>
-              <ul className="list-disc list-inside mt-2 space-y-1">
-                <li>Clear objectives and requirements</li>
-                <li>Step-by-step instructions if applicable</li>
-                <li>Evaluation criteria</li>
-                <li>Any resources or references</li>
-                <li>Submission guidelines</li>
-              </ul>
               <FormMessage />
             </FormItem>
           )}
         />
-      </Card>
 
-      {/* Preview section can be added here later */}
-    </div>
+        <div className="text-sm text-muted-foreground">
+          <p>Tip: You can use markdown for formatting your instructions:</p>
+          <pre className="mt-2 p-2 bg-muted rounded-md">
+            # Headers{"\n"}
+            **Bold text**{"\n"}- Bullet points{"\n"}
+            1. Numbered lists{"\n"}
+            `code examples`
+          </pre>
+        </div>
+      </div>
+    </Card>
   );
 }

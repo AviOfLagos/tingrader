@@ -10,7 +10,6 @@ import TaskListView from "./TaskListView";
 import { ViewMode, Task } from "@/types/task";
 import { mockTasks } from "@/mock/tasks";
 import { TRACKS, STAGES, SORT_OPTIONS } from "@/constants/task";
-import CreateTaskPage from "@/app/(dashboard)/tasks/create/page";
 
 
 const TasksContainer: React.FC = () => {
@@ -22,6 +21,7 @@ const TasksContainer: React.FC = () => {
   const [sortBy, setSortBy] = useState<string>(SORT_OPTIONS.DUE_DATE);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
+  
   const filteredAndSortedTasks = useMemo(() => {
     return mockTasks
       .filter((task: Task) => {
@@ -39,11 +39,20 @@ const TasksContainer: React.FC = () => {
         let comparison = 0;
         switch (sortBy) {
           case SORT_OPTIONS.DUE_DATE:
-            comparison =
-              new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+            const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+            const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+            comparison = dateA - dateB;
             break;
           case SORT_OPTIONS.SUBMISSIONS:
-            comparison = a.submissions.current - b.submissions.current;
+            if (a.submissions && b.submissions) {
+              comparison = a.submissions.current - b.submissions.current;
+            } else if (a.submissions) {
+              comparison = 1; // or some other logic if only a.submissions is defined
+            } else if (b.submissions) {
+              comparison = -1; // or some other logic if only b.submissions is defined
+            } else {
+              comparison = 0; // or some other logic if neither is defined
+            }
             break;
           case SORT_OPTIONS.STAGE:
             comparison = a.stage - b.stage;
@@ -89,7 +98,6 @@ const TasksContainer: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="flex flex-col sm:flex-row justify-between gap-4">
           <h1 className="text-2xl font-bold">Tasks</h1>
-          <CreateTaskPage />
         </div>
 
         <TaskViewSelector currentView={viewMode} onViewChange={setViewMode} />

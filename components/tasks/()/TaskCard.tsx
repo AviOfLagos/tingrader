@@ -28,8 +28,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onAction }) => {
     task: Task
   ): "default" | "destructive" | "secondary" => {
     if (task.status === "closed") return "destructive";
-    if (task.submissions.current >= task.submissions.max) return "destructive";
-    if (task.submissions.current >= task.submissions.max * 0.8)
+    if (task.submissions?.current != null && task.submissions?.max != null && task.submissions.current >= task.submissions.max) return "destructive";
+    if (task.submissions?.current != null && task.submissions?.max != null && task.submissions.current >= task.submissions.max * 0.8)
       return "secondary";
     return "default";
   };
@@ -57,7 +57,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onAction }) => {
             <Badge variant={getStatusColor(task)}>
               {task.status === "closed" ? "Closed" : "Open"}
             </Badge>
-            {task.submissions.userHasSubmitted && (
+            {task.submissions?.userHasSubmitted && (
               <Badge variant="secondary">
                 <CheckCircle2 className="w-3 h-3 mr-1" />
                 Submitted
@@ -80,13 +80,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onAction }) => {
           <div className="flex items-center text-sm">
             <Calendar className="w-4 h-4 mr-2" />
             <span className="text-muted-foreground">
-              {getTimeRemaining(task.dueDate)}
+              {task.dueDate ? getTimeRemaining(task.dueDate) : "No due date"}
             </span>
           </div>
           <div className="flex items-center text-sm">
             <Users className="w-4 h-4 mr-2" />
             <span className="text-muted-foreground">
-              {task.submissions.current}/{task.submissions.max} submissions
+              {task.submissions?.current}/{task.submissions?.max} submissions
             </span>
           </div>
           <div className="flex items-center text-sm">
@@ -95,7 +95,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onAction }) => {
               {task.grading.pendingGrades} pending grades
             </span>
           </div>
-          {task.submissions.current >= task.submissions.max * 0.8 && (
+          {task.submissions?.current != null && task.submissions?.max != null && task.submissions.current >= task.submissions.max * 0.8 && (
             <div className="flex items-center text-sm text-yellow-500">
               <AlertCircle className="w-4 h-4 mr-2" />
               <span>Almost full</span>

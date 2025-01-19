@@ -1,232 +1,103 @@
+// app/(dashboard)/profile/page.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
-import InternsGrid from "@/components/interns/InternsGrid";
-import { mockMembers } from "../../api/mock-data";
-import { Role as UserRole } from "@/types";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createClient } from "@/utils/supabase/client";
+import { mockUsers } from "@/app/api/mock-data";
+import { User } from "@/types";
+import { UserFilters } from "@/components/users/userFilters";
+import { UserGridView, UserListView } from "@/components/users/userView";
 
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-
-const assignableRoles = ["mentor", "grader", "intern"] as const;
-type AssignableUserRole = (typeof assignableRoles)[number];
-const inviteSchema = z.object({
-  email: z.string().email(),
-  role: z.enum(assignableRoles),
-  track: z.string().optional(),
-});
-
-type InviteFormValues = {
-  email: string;
-  role: AssignableUserRole;
-  track?: string;
-};
-
-import { User as UserType, Role } from "@/types";
-
-interface User extends Omit<UserType, "trackId"> {
-  role: UserType["role"];
+interface UserStats {
+  tasksCompleted: number;
+  avgScore: number;
+  lastActive?: string;
 }
 
-const UsersPage = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [search, setSearch] = useState("");
-  const [filterRole, setFilterRole] = useState("");
-  const currentUserRole: UserRole = UserRole.ChiefOwner;
+export default function ProfilePage() {
+  const [selectedRole, setSelectedRole] = React.useState<string>("all");
+  const [selectedTrack, setSelectedTrack] = React.useState<string>("all");
+  const [selectedStage, setSelectedStage] = React.useState<string>("all");
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [viewMode, setViewMode] = React.useState<"grid" | "list">("grid");
+  const [mounted, setMounted] = React.useState(false);
+  const supabase = React.useMemo(() => createClient(), []);
 
-  const filterUsers = () => {
-    return users
-      .filter((user) => {
-        if (filterRole && user.role !== filterRole) return false;
-        if (search && !user.name.toLowerCase().includes(search.toLowerCase()))
-          return false;
-        return true;
-      })
-      .sort((a, b) => a.name.localeCompare(b.name)); // Example sorting by name
-  };
-
-  // Fetch users from mock data
-  useEffect(() => {
-    setUsers(mockMembers);
+  // Handle hydration by waiting for mount
+  React.useEffect(() => {
+    setMounted(true);
   }, []);
 
-  const inviteForm = useForm<InviteFormValues>({
-    resolver: zodResolver(inviteSchema),
-    defaultValues: {
-      email: "",
-      role: "intern",
-    },
-  });
+  // Generate consistent mock stats
+  const userStats = React.useMemo(() => {
+    const seed = 123; // Use a consistent seed for random numbers
+    const stats: Record<string, UserStats> = {};
 
-  const handleInviteSubmit = (data: InviteFormValues) => {
-    // Placeholder for sending invite
-    console.log("Inviting:", data);
-    // Implement email sending functionality
-    fetch("/api/send-invite", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.email,
-        role: data.role,
-        track: data.track,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Email sent:", result);
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error);
-      });
-    inviteForm.reset();
-  };
+    mockUsers.forEach((user, index) => {
+      // Use deterministic values based on index
+      stats[user.id] = {
+        tasksCompleted: 10 + index * 5,
+        avgScore: 3 + (index % 4) * 0.5,
+        lastActive: new Date(2024, 0, 1 + index).toISOString(),
+      };
+    });
 
-  const handleRoleChange = (userId: number, newRole: AssignableUserRole) => {
-    // Placeholder for updating user role
-    console.log(`Updating user ${userId} role to ${newRole}`);
-  };
+    return stats;
+  }, []);
 
-  const canAssignRole = (role: UserRole) => {
-    if (currentUserRole === UserRole.ChiefOwner) {
-      return true;
-    }
-    if (
-      currentUserRole === UserRole.Mentor &&
-      role !== UserRole.Mentor &&
-      role !== UserRole.ChiefOwner
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const filteredUsers = React.useMemo(() => {
+    return mockUsers.filter((user) => {
+      const matchesRole = selectedRole === "all" || user.role === selectedRole;
+      const matchesTrack =
+        selectedTrack === "all" || user.trackId === selectedTrack;
+      const matchesSearch =
+        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase());
 
-  const canCreateTask = () => {
-    return (
-      currentUserRole === UserRole.ChiefOwner ||
-      currentUserRole === UserRole.Mentor
-    );
-  };
+      return matchesRole && matchesTrack && matchesSearch;
+    });
+  }, [selectedRole, selectedTrack, searchQuery]);
 
-  const canGrade = () => {
-    return (
-      currentUserRole === UserRole.ChiefOwner ||
-      currentUserRole === UserRole.Mentor ||
-      currentUserRole === UserRole.Grader
-    );
-  };
-
-  const canViewSubmissionSummary = () => {
-    return currentUserRole === UserRole.ChiefOwner;
-  };
+  if (!mounted) {
+    return null; // Prevent hydration errors by not rendering until mounted
+  }
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold container mx-auto p-4 ">Users</h1>
+    <div className="container mx-auto p-6 space-y-6">
+      <header className="space-y-4">
+        <h1 className="text-3xl font-bold">Users</h1>
 
-      {/* Invite User Dialog */}
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="default">Invite User</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Invite User</DialogTitle>
-          </DialogHeader>
-          <form
-            onSubmit={inviteForm.handleSubmit(handleInviteSubmit)}
-            className="space-y-4 mt-4"
-          >
-            <div>
-              <Input
-                placeholder="User Email"
-                {...inviteForm.register("email")}
-              />
-              {inviteForm.formState.errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {inviteForm.formState.errors.email.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <Select
-                value={inviteForm.watch("role")}
-                onValueChange={(value: AssignableUserRole) =>
-                  inviteForm.setValue("role", value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select role" />
-                </SelectTrigger>
-                <SelectContent>
-                  {currentUserRole === UserRole.ChiefOwner && (
-                    <SelectItem value={UserRole.Mentor}>Mentor</SelectItem>
-                  )}
-                  {canAssignRole(UserRole.Grader) && (
-                    <SelectItem value={UserRole.Grader}>Grader</SelectItem>
-                  )}
-                  <SelectItem value={UserRole.Intern}>Intern</SelectItem>
-                </SelectContent>
-              </Select>
-              {inviteForm.formState.errors.role && (
-                <p className="text-red-500 text-sm mt-1">
-                  {inviteForm.formState.errors.role.message}
-                </p>
-              )}
-            </div>
-            <Button type="submit">Send Invite</Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      <h2 className="text-xl font-semibold mt-8 mb-4">Interns</h2>
-      <div className="flex items-center space-x-4 mb-4">
-        <Input
-          placeholder="Search interns..."
-          className="max-w-xs"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+        <UserFilters
+          searchQuery={searchQuery}
+          selectedTrack={selectedTrack}
+          selectedStage={selectedStage}
+          viewMode={viewMode}
+          onSearchChange={setSearchQuery}
+          onTrackChange={setSelectedTrack}
+          onStageChange={setSelectedStage}
+          onViewModeChange={setViewMode}
         />
-        <Select value={filterRole} onValueChange={setFilterRole}>
-          <SelectTrigger>
-            <SelectValue placeholder="Filter by role" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="intern">Intern</SelectItem>
-            <SelectItem value="grader">Grader</SelectItem>
-            <SelectItem value="mentor">Mentor</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <InternsGrid
-        interns={users.filter(
-          (user) =>
-            user.role === "intern" &&
-            user.name.toLowerCase().includes(search.toLowerCase()) &&
-            (filterRole === "" || user.role === filterRole)
-        )}
-      />
+      </header>
+
+      <Tabs defaultValue="all" onValueChange={setSelectedRole}>
+        <TabsList>
+          <TabsTrigger value="all">All Users</TabsTrigger>
+          <TabsTrigger value="mentor">Mentors</TabsTrigger>
+          <TabsTrigger value="grader">Graders</TabsTrigger>
+          <TabsTrigger value="intern">Interns</TabsTrigger>
+        </TabsList>
+
+        {["all", "mentor", "grader", "intern"].map((role) => (
+          <TabsContent key={role} value={role}>
+            {viewMode === "grid" ? (
+              <UserGridView users={filteredUsers} userStats={userStats} />
+            ) : (
+              <UserListView users={filteredUsers} userStats={userStats} />
+            )}
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   );
-};
-
-export default UsersPage;
+}
