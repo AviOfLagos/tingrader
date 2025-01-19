@@ -20,7 +20,12 @@ import { GradingSettings } from "@/components/tasks/create/GradingSettings";
 import { AdvancedGradingSettings } from "./AdvancedGradingSettings";
 import { DeadlineSettings } from "@/components/tasks/create/DeadlineSettings";
 import { TaskInstructions } from "@/components/tasks/create/TaskInstructions";
-import { TaskCreationModal } from "@/components/tasks/create/TaskCreationModal";
+import dynamic from "next/dynamic";
+
+const TaskCreationModal = dynamic(() =>
+  import("@/components/tasks/create/TaskCreationModal").then((mod) => mod.TaskCreationModal),
+  { ssr: false }
+);
 import { toast } from "sonner";
 
 const taskFormSchema = z

@@ -1,7 +1,12 @@
 "use client";
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import TaskCreationWizard from "@/components/tasks/TaskCreationWizard";
+import dynamic from "next/dynamic";
+
+const TaskCreationWizard = dynamic(
+  () => import("@/components/tasks/TaskCreationWizard"),
+  { ssr: false }
+);
 
 interface TaskCreationModalProps {
   open: boolean;

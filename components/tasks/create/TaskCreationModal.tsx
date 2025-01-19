@@ -33,7 +33,13 @@ export function TaskCreationModal({
 }: TaskCreationModalProps) {
   const router = useRouter();
   const [copied, setCopied] = React.useState(false);
-const taskUrl = `${window.location.origin}/app/tasks/${taskId}`;
+  const [taskUrl, setTaskUrl] = React.useState('');
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setTaskUrl(`${window.location.origin}/app/tasks/${taskId}`);
+    }
+  }, [taskId]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(taskUrl);
